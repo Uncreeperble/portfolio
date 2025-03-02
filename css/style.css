@@ -1,48 +1,257 @@
-/* CSS STYLE STUFF */
-
-body {
+/* -------------------------------
+   GENERAL RESETS & BODY
+--------------------------------- */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a;
-    color: #ffffff
 }
 
-header {
-    background-color: #285943; /* Castleton green */
-    color: #ffffff; /* White */
-    text-align: left;
-    margin-left: 40px;
-    padding: 20px;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-header button {
-    background-color: #AAFCB8;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
+body {
     font-family: 'Poppins', sans-serif;
+    background-color: #262726; /* Dark background for the main page */
+    color: #FFFFFF;
+}
+
+/* -------------------------------
+     NAVIGATION (HEADER)
+--------------------------------- */
+header {
+    background-color: #1E1E1E;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Logo left, menu right */
+    align-items: center;
+    padding: 1% 4%;
+}
+
+.logo {
+    font-size: 200%;
+    font-weight: 700;
+    color: #A6FF96; /* Creeper green */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20%;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #A6FF96;
+}
+
+/* -------------------------------
+     HERO SECTION
+--------------------------------- */
+.hero {
+    /* Darker background with repeating green squares (placeholder) */
+    background: #343733 url('../assets/bg-squares.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 4%; /* Offset for fixed nav */
+    display: flex;
+    flex-wrap: wrap; /* Stacks on smaller screens */
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 60vh;
+    padding: 1% 5%
+}
+
+/* Container for hero text */
+.hero-content {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Box for title, subtitle, and button */
+.hero-box {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    padding: 5% 5%;
+    margin-top: 5%;
+    border-radius: 10px;
+    min-width: 30; /* Ensures line breaks occur */
+    text-align: left;
+    flex: 1;
+}
+
+.hero-box h1 {
+    font-size: 6rem; /* Increased size */
+    margin-bottom: 10px;
+    color: #A6FF96; /* Creeper green */
+}
+
+.hero-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.hero-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    color: #888888; /* More greyed-out color */
+}
+
+/* Hero button */
+.hero-box button {
+    background-color: #A6FF96;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: 25px;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
 }
 
-header button:hover {
+.hero-box button:hover {
     background-color: #8FE5A2;
 }
 
-header h1 {
-    font-size: 8rem;
-    font-family: 'Montserrat', sans-serif;
-    
+
+
+/* Hero Image (Profile) */
+.hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4%;
+
+    width: 40%;
 }
 
-header h2 {
+.hero-image {
+    width: 50%; /* Full width of the container */
+    height: 50%; /* Full height of the container */
+    position: relative;
+    margin-bottom: 1%; /* Add some spacing below the image */
+}
+
+.hero-image img {
+    width: 100%; /* Make sure the image fills the container */
+    height: 100%; /* Make sure the image fills the container */
+    border: 12px solid #A6FF96;
+    border-radius: 10px;
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+}
+
+/* Hero Languages/Logos */
+.hero-langs {
+    display: flex;
+    justify-content: center; /* Center align the logos */
+    gap: 15px; /* Gap between logos */
+    margin-top: 20px; /* Space between the image and the logos */
+}
+
+.hero-langs img {
+    width: 50px; /* Fixed size for the logos */
+    height: 50px; /* Fixed size for the logos */
+    border-radius: 50%;
+    object-fit: cover; /* Ensure logos are not distorted */
+}
+
+
+/* -------------------------------
+     ABOUT SECTION
+--------------------------------- */
+.about-section {
+    background-color: #2B2F2D; /* Slightly lighter shade */
+    padding: 3%;
+    margin: 2% 5%; /* Center the section */
+    text-align: left;
+}
+
+.about-section h2 {
     font-size: 2.5rem;
-    font-family: 'comicsans';
-
+    margin-bottom: 20px;
+    color: #A6FF96;
 }
 
+.about-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+/* -------------------------------
+     PROJECTS SECTION
+--------------------------------- */
+.projects-section {
+    background-color: #262726; /* Match body */
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.projects-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #A6FF96;
+}
+
+.projects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.project-card {
+    background-color: #333333;
+    border: 2px solid #A6FF96;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1 1 250px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.project-card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.project-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* -------------------------------
+     FOOTER
+--------------------------------- */
+footer {
+    background-color: #1E1E1E;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
