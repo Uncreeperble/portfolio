@@ -1,33 +1,102 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll("nav ul li a").forEach(link => {
-        link.addEventListener("click", event => {
-            event.preventDefault();
-            const targetId = event.target.getAttribute("href").substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                window.scrollTo({
-                    top: targetSection.offsetTop - 50,
-                    behavior: "smooth"
-                });
-            }
-        });
-    });
-
-    // Animate hero text on load
-    const heroText = document.querySelector(".hero-box h1");
-    heroText.style.opacity = 0;
-    setTimeout(() => {
-        heroText.style.transition = "opacity 1.5s ease-in-out";
-        heroText.style.opacity = 1;
-    }, 500);
-
-    // Toggle dark mode
-    const toggleButton = document.createElement("button");
-    toggleButton.textContent = "Toggle Dark Mode";
-    toggleButton.classList.add("dark-mode-toggle");
-    document.body.appendChild(toggleButton);
-    toggleButton.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
+// Smooth Scrolling (Navigation Links)
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        handleSmoothScroll(this.getAttribute('href'));
     });
 });
+
+// Smooth Scrolling (View Projects Button)
+const viewProjectsButton = document.querySelector('#left-hero button');
+if (viewProjectsButton) {
+    viewProjectsButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        handleSmoothScroll('#projects'); // Scroll to the projects section
+    });
+}
+
+// Active Navigation Link Highlight
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    let currentSectionId = '';
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop - sectionHeight / 4) {
+            currentSectionId = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Animated Waving Hand
+const wavingHand = document.querySelector('h1');
+if (wavingHand) {
+    wavingHand.style.animation = 'wave 2s linear infinite';
+}
+
+function handleSmoothScroll(targetHref) {
+    const target = document.querySelector(targetHref);
+    if (target) {
+        target.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Grid Hover Effect
+const titleSection = document.querySelector('#title');
+if (titleSection) {
+    titleSection.addEventListener('mousemove', (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
+        const sectionWidth = titleSection.offsetWidth;
+        const sectionHeight = titleSection.offsetHeight;
+
+        const limitedX = (x / sectionWidth) * 200;
+        const limitedY = (y / sectionHeight) * 200;
+
+        titleSection.style.setProperty('--mouse-x', `${limitedX}%`);
+        titleSection.style.setProperty('--mouse-y', `${limitedY}%`);
+    });
+
+    titleSection.addEventListener('mouseout', () => {
+        titleSection.style.setProperty('--mouse-x', `50%`);
+        titleSection.style.setProperty('--mouse-y', `50%`);
+    });
+}
+
+// GitHub Integration
+const githubUsername = 'Uncreeperble'; // Replace with your GitHub username
+const githubProfilePic = document.getElementById('github-profile-pic');
+const githubUsernameElement = document.getElementById('github-username');
+const githubBioElement = document.getElementById('github-bio');
+
+fetch(`https://api.github.com/users/${githubUsername}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        githubProfilePic.src = data.avatar_url;
+        githubUsernameElement.textContent = data.login;
+        githubBioElement.textContent = data.bio;
+    })
+    .catch(error => {
+        console.error('Error fetching GitHub data:', error);
+        // Handle the error gracefully (e.g., display a default image or message)
+        githubProfilePic.src = 'assets/default-github.png';
+        githubUsernameElement.textContent = githubUsername;
+        githubBioElement.textContent = "Failed to load";
+    });

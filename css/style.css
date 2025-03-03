@@ -1,257 +1,368 @@
-/* -------------------------------
-   GENERAL RESETS & BODY
---------------------------------- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #262726; /* Dark background for the main page */
-    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif; /* Main text font */
+    margin: 0;
+    padding: 0;
+    background-color: #283028;
+    color: #f5f5f5;
 }
 
-/* -------------------------------
-     NAVIGATION (HEADER)
---------------------------------- */
-header {
-    background-color: #1E1E1E;
+/* Watermark */
+body::before {
+    content: "In Progress";
     position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 8rem; /* Large on desktop */
+    color: rgba(255, 255, 255, 0.1); /* Faint white */
+    z-index: 9999; /* Ensure it's on top */
+    pointer-events: none; /* Don't interfere with clicks */
+    white-space: nowrap; /* Prevent wrapping */
+    font-family: 'Roboto Mono', monospace;
+}
+/* Media query to adjust the watermark on smaller screens */
+@media (max-width: 768px) {
+    body::before {
+        font-size: 4rem; /* Smaller on mobile */
+    }
 }
 
+/* Navigation Bar */
 nav {
+    background-color: #1e241e;
+    padding: 15px;
     display: flex;
-    justify-content: space-between; /* Logo left, menu right */
+    justify-content: flex-end;
     align-items: center;
-    padding: 1% 4%;
-}
-
-.logo {
-    font-size: 200%;
-    font-weight: 700;
-    color: #A6FF96; /* Creeper green */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
 }
 
 nav ul {
-    list-style: none;
+    list-style-type: none;
+    padding: 0;
     display: flex;
-    gap: 20%;
+}
+
+nav ul li {
+    margin: 0 15px;
 }
 
 nav ul li a {
+    color: #e0e0e0;
     text-decoration: none;
-    color: #FFFFFF;
-    font-weight: 500;
-    transition: color 0.3s;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
 }
 
 nav ul li a:hover {
-    color: #A6FF96;
+    background-color: #90EE90;
+    color: black;
 }
 
-/* -------------------------------
-     HERO SECTION
---------------------------------- */
-.hero {
-    /* Darker background with repeating green squares (placeholder) */
-    background: #343733 url('../assets/bg-squares.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-top: 4%; /* Offset for fixed nav */
+nav ul li a.active {
+    background-color: #90EE90;
+    color: black;
+}
+
+/* Hero Section */
+#title {
     display: flex;
-    flex-wrap: wrap; /* Stacks on smaller screens */
     align-items: center;
-    justify-content: flex-start;
-    min-height: 60vh;
-    padding: 1% 5%
+    justify-content: center;
+    padding: 50px;
+    gap: 50px;
+    background-color: #385234;
+    border-bottom: 1px solid #1e241e;
+    margin-top: 60px;
+    --mouse-x: 0;
+    --mouse-y: 0;
+    perspective: 800px;
+    transition: transform 0.2s ease-out;
 }
 
-/* Container for hero text */
-.hero-content {
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+@media (min-width: 769px) {
+    #title {
+        background-image:
+            radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 10%, transparent 60%), /* Radial gradient for deformation */
+            linear-gradient(to right, rgba(144, 238, 144, 0.1) 2px, transparent 2px),
+            linear-gradient(to bottom, rgba(144, 238, 144, 0.1) 2px, transparent 2px);
+
+        background-size: 40px 40px, 40px 40px, 40px 40px;
+        background-position: center, 0 0, 0 0;
+        animation: grid-animation 10s linear infinite;
+    }
+    #title:hover {
+      transform: rotateX(calc((var(--mouse-y) / 100) * 1deg - 0.5deg)) rotateY(calc((var(--mouse-x) / 100) * 1deg - 0.5deg)); /* Apply the bend */
+    }
 }
 
-/* Box for title, subtitle, and button */
-.hero-box {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    padding: 5% 5%;
-    margin-top: 5%;
-    border-radius: 10px;
-    min-width: 30; /* Ensures line breaks occur */
-    text-align: left;
-    flex: 1;
-}
-
-.hero-box h1 {
-    font-size: 6rem; /* Increased size */
-    margin-bottom: 10px;
-    color: #A6FF96; /* Creeper green */
-}
-
-.hero-box h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    line-height: 1.4;
-}
-
-.hero-box h3 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    color: #888888; /* More greyed-out color */
-}
-
-/* Hero button */
-.hero-box button {
-    background-color: #A6FF96;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.hero-box button:hover {
-    background-color: #8FE5A2;
-}
-
-
-
-/* Hero Image (Profile) */
-.hero-right {
+#left-hero {
+    max-width: 40%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+#right-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 4rem; /* Reduced font size */
+    text-align: center;
+    font-family: 'Roboto Mono', monospace; /* Changed Font */
+}
+
+h2 {
+    font-size: 2rem;
+    color: #90EE90;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace; /* Changed Font */
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #b0e096;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace; /* Changed Font */
+}
+
+button {
+    background-color: #90EE90;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 25px;
+    filter: saturate(90%);
+    transition: background-color 0.3s ease, filter 0.3s ease;
+    align-self: center;
+}
+
+button:hover {
+    background-color: #98FB98;
+    filter: saturate(100%);
+}
+
+/* Profile Image */
+#right-hero img {
+    width: auto;
+    height: 100%;
+    max-height: 400px;
+    border-radius: 15px;
+    border: 5px solid #90EE90;
+    object-fit: cover;
+    object-position: center;
+}
+
+#langs {
+    display: flex;
+    gap: 10px;
     justify-content: center;
     align-items: center;
-    padding-top: 4%;
-
-    width: 40%;
+    margin-top: 20px;
 }
 
-.hero-image {
-    width: 50%; /* Full width of the container */
-    height: 50%; /* Full height of the container */
-    position: relative;
-    margin-bottom: 1%; /* Add some spacing below the image */
-}
-
-.hero-image img {
-    width: 100%; /* Make sure the image fills the container */
-    height: 100%; /* Make sure the image fills the container */
-    border: 12px solid #A6FF96;
-    border-radius: 10px;
-    object-fit: cover; /* Ensure the image covers the area without stretching */
-}
-
-/* Hero Languages/Logos */
-.hero-langs {
-    display: flex;
-    justify-content: center; /* Center align the logos */
-    gap: 15px; /* Gap between logos */
-    margin-top: 20px; /* Space between the image and the logos */
-}
-
-.hero-langs img {
-    width: 50px; /* Fixed size for the logos */
-    height: 50px; /* Fixed size for the logos */
+#langs img {
+    width: 50px;
+    height: 50px;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
-    object-fit: cover; /* Ensure logos are not distorted */
+    object-fit: cover;
 }
 
-
-/* -------------------------------
-     ABOUT SECTION
---------------------------------- */
-.about-section {
-    background-color: #2B2F2D; /* Slightly lighter shade */
-    padding: 3%;
-    margin: 2% 5%; /* Center the section */
-    text-align: left;
+/* About Section */
+#about {
+    padding: 50px;
+    text-align: center;
+    background-color: #283028;
+    margin-bottom: 40px; /* Added margin below the About section */
 }
 
-.about-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #A6FF96;
+/* Projects Section */
+#projects {
+    padding: 50px;
+    text-align: center;
+    background-color: #283028;
 }
 
-.about-section p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 800px;
-}
-
-/* -------------------------------
-     PROJECTS SECTION
---------------------------------- */
-.projects-section {
-    background-color: #262726; /* Match body */
-    padding: 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-.projects-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #A6FF96;
-}
-
-.projects-grid {
+#projects-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: flex-start;
 }
 
-.project-card {
-    background-color: #333333;
-    border: 2px solid #A6FF96;
+.project1, .project2, .project3, .project4 {
+    background-color: #1e241e;
+    padding: 20px;
     border-radius: 10px;
-    padding: 20px;
-    flex: 1 1 250px;
-    max-width: 300px;
+    width: 250px;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.project-card img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
+.project1 img, .project2 img, .project3 img, .project4 img {
+    width: 100%;
+    border-radius: 10px;
 }
 
-.project-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+.project1 button, .project2 button, .project3 button, .project4 button {
+    margin-top: 10px;
 }
 
-.project-card p {
-    font-size: 1rem;
-    line-height: 1.4;
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    nav {
+        justify-content: center; /* Center-align on mobile */
+    }
+
+    #title {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    #left-hero {
+        max-width: 100%;
+    }
+
+    #right-hero img {
+        margin-top: 20px;
+        width: 150px;
+        height: auto;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    #right-hero {
+        width: 100%;
+    }
+
+    #title {
+        padding: 20px;
+    }
+
+    #langs img {
+        width: 30px;
+        height: 30px;
+    }
 }
 
-/* -------------------------------
-     FOOTER
---------------------------------- */
+/* Waving Hand Animation */
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(14deg);
+    }
+
+    20% {
+        transform: rotate(-8deg);
+    }
+
+    30% {
+        transform: rotate(14deg);
+    }
+
+    40% {
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    60% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Grid Animation */
+@keyframes grid-animation {
+    0% {
+      background-position: center, 0 0, 0 0;
+    }
+    100% {
+      background-position: center, 40px 40px, 40px 40px;
+    }
+}
+
+/* Footer Styles */
 footer {
-    background-color: #1E1E1E;
-    text-align: center;
+    background-color: transparent; /*changed*/
     padding: 20px;
-    margin-top: 40px;
+    text-align: center;
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
+footer a {
+    color: transparent; /*changed*/
+    font-size: 2rem;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: transparent; /*changed*/
+}
+
+/* Integration Section Styles */
+#integrations {
+    background-color: #1e241e;
+    padding: 20px; /* Reduced padding */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px; /* Add space below the integrations */
+}
+
+.github-info {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Increased gap */
+    color: white;
+}
+
+#github-profile-pic {
+    width: 80px; /* Reduced size */
+    height: 80px; /* Reduced size */
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: white;
+}
+
+.github-text {
+    text-align: left;
+}
+#github-link {
+  text-decoration: none;
+}
+
+#github-link:hover {
+  background-color: #385234;
 }
